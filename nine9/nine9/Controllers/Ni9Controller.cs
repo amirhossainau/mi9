@@ -13,23 +13,21 @@ namespace nine9.Controllers
         [HttpPost]
         public IHttpActionResult Post(Programs programs)
         {
-            List<Response> responselist;// = null;
+            ResponseResult responseresult = null;
             if (programs == null)
                 throw new HttpResponseException(Request.CreateResponse<CustomError>(HttpStatusCode.BadRequest, new CustomError("Could not decode request: JSON parsing failed")));
             else
             {
                 try
                 {
-                    responselist = new List<Response>();
-                    responselist = programs.payload.Where(d => d.drm == true && d.episodeCount > 0).Select(x => new Response() { image = x.image.showImage, slug = x.slug, title = x.title }).ToList();
+                    responseresult = new ResponseResult(programs.payload);
                 }
-                catch(Exception exception)
+                catch(Exception)
                 { throw new HttpResponseException(Request.CreateResponse<CustomError>(HttpStatusCode.BadRequest, new CustomError("Could not decode request: JSON parsing failed"))); }
             }
-            ResponseResult oResres = new ResponseResult();
-            oResres.response = new List<Response>();
-            oResres.response = responselist;
-            return Json(oResres);// Request.CreateResponse<ResponseResult>(HttpStatusCode.OK, oResres);
+            return Json(responseresult);
         }
+
+      
     }
 }
