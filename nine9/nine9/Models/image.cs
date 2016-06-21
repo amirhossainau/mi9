@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace nine9.Models
 {
     public class Image
-    {//
+    {
         #region Properties
         [Display(Name="image")]
         public string showImage { get; set; }
